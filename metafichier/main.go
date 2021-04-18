@@ -18,6 +18,22 @@ func check(e error) {
 	}
 }
 
+func nbElsPrec(nbu int, n int) uint64 {
+	if n < 1 {
+		return 0
+	} else if nbu == 1 {
+		return 1
+	} else if nbu == 2 {
+		return uint64(n)
+	} else {
+		var res uint64 = 1
+		for i := 0; i < nbu; i++ {
+			res *= uint64((n + i) / (i + 1))
+		}
+		return res
+	}
+}
+
 func intToByteArray(number int) []byte {
 
 	snumber := fmt.Sprintf("%x", number)
@@ -63,6 +79,53 @@ func buildMetafichier(filename string) {
 		h.Write(b[0:n])
 	}
 
+	fmt.Println("Calcul du rang dans la sous-famille ...")
+	fmt.Println("nbu: ", nbu)
+	
+	f.Seek(0, 0)
+	
+	ind := 0
+	nb_uns := nbu
+	var rang uint64 = 1
+	it := 0
+
+	for {
+		n, err := r.Read(b)
+		if err != nil {
+			if err != io.EOF {
+				fmt.Println("Error reading file:", err)
+			}
+			break
+		}
+		bits := ""
+		for i := 0; i < n; i++ {
+
+			// On convertit l'octet en une nbPrececesseur de bits
+			bits = fmt.Sprintf("%b", b[i])
+
+			// On complete avec des zeros au debut pour atteindre 8 bits
+			for len(bits) < 8 {
+				bits = "0" + bits
+			}
+
+			for c := 0; c < len(bits); c++ {
+				pos := taille*8 - ind
+				bit := fmt.Sprintf("%c", bits[c])
+				if bit == "1" {
+					bonds := pos - nb_uns
+					som := nbElsPrec(nb_uns, bonds)
+					rang += som
+					// fmt.Print(bonds, nb_uns, " - ")
+					nb_uns -= 1
+					it++
+				}
+				ind++
+			}
+		}
+
+		fmt.Printf("\nprog: %d %d %v%%\n", it, nbu, int(float64(it)/float64(nbu)*100))
+	}
+
 	hash := h.Sum(nil)[:20]
 
 	f.Close()
@@ -83,7 +146,6 @@ func buildMetafichier(filename string) {
 	check(errHash)
 
 	// Écriture du nombre de bits à 1
-	check(e)
 	_, e = m.Write(intToByteArray(nbu))
 	check(e)
 
@@ -107,6 +169,7 @@ func buildMetafichier(filename string) {
 	fmt.Println("   SHA-1:", hex.EncodeToString(hash))
 	fmt.Printf("     nbu: %d (0x%x)\n", nbu, nbu)
 	fmt.Printf("  taille: %d (0x%x)\n", taille, taille)
+	fmt.Printf("    rang: %v (0x%x)\n", rang, rang)
 	fmt.Println("     nom:", filename)
 }
 

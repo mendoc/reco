@@ -1,5 +1,5 @@
 
-famille      = 8
+famille      = 128
 sous_famille = 3
 rang = 0
 
@@ -15,12 +15,12 @@ def suite(nbu, n):
     else:
         res = 1
         for i in range(nbu-1):
-            res *= (n + i)/(i + 1) 
+            res *= (n + i)/(i + 1)
         return int(res)
 
 def get_rang(element):
     nb_uns = len(element.replace("0", ""))
-    rang = 0
+    rang = 1
     for ind in range(len(element)):
         pos = len(element) - ind
         bit = element[ind]
@@ -31,8 +31,10 @@ def get_rang(element):
             nb_uns -= 1
             rang += som
 
-    return rang + 1
+    return rang
 
+
+r = get_rang("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011000100000000000000000000000000000")
 
 for a in range(1, famille - sous_famille + 1):
     val = suite(sous_famille, a)
