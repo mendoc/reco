@@ -29,10 +29,45 @@ def add(nb1, nb2):
         if rep > 9:
             retenue = 1
             rep = rep % 10
-        # print(str(i) + " => " + nb1[i] + " + " + nb2[i] + " = " + str(rep) + " ("+ str(retenue) +")")
         resultat = str(rep) + resultat
 
     if retenue != 0:
         resultat = "1" + resultat
 
+    return resultat
+
+def mul(nb1, nb2):
+    retenue = 0
+    resultat = "0"
+    lignes = []
+    if len(nb1) < len(nb2):
+        t = nb2
+        nb2 = nb1
+        nb1 = t
+    
+    for i in range(len(nb2)-1, -1, -1):
+        ligne = ""
+        for k in range(len(nb1)-1, -1, -1):
+            prod = int(nb2[i]) * int(nb1[k])
+
+            if retenue != 0:
+                prod += retenue
+                retenue = 0
+
+            if prod > 9:
+                retenue = int(prod / 10)
+                prod = prod % 10
+            
+            ligne = str(prod) + ligne
+            
+            if k == 0 and retenue != 0:
+                ligne = str(retenue) + ligne
+                retenue = 0
+        
+        pad = len(ligne) + len(nb2) - i - 1
+        while len(ligne) < pad:
+            ligne += "0"
+        
+        resultat = add(resultat, ligne)
+    
     return resultat
