@@ -71,3 +71,36 @@ def mul(nb1, nb2):
         resultat = add(resultat, ligne)
     
     return resultat
+
+def sous(nb1, nb2):
+    retenue = 0
+    resultat = ""
+
+    if len(nb1) < len(nb2):
+        return "0"
+    
+    if len(nb1) > len(nb2):
+        while len(nb2) < len(nb1):
+            nb2 = "0" + nb2
+    else:
+        while len(nb1) < len(nb2):
+            nb1 = "0" + nb1
+    
+    if nb1 < nb2:
+        return "0"
+    
+    for i in range(len(nb1)-1, -1, -1):
+        if retenue != 0:
+            rep = int(nb1[i]) - (int(nb2[i]) + retenue)
+            retenue = 0
+        else:
+            rep = int(nb1[i]) - int(nb2[i])
+
+        if rep < 0:
+            rep += 10
+            retenue = 1
+        
+        if i != 0 or rep != 0:
+            resultat = str(rep) + resultat
+        
+    return resultat
