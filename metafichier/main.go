@@ -19,13 +19,9 @@ func check(e error) {
 }
 
 func nbElsPrec(nbu int, n int) uint64 {
-	if n < 1 {
+	if n < 1 || nbu < 1 {
 		return 0
 	} else if nbu == 1 {
-		// TODO: Revoir ce qui doit etre retourné
-		return 1
-	} else if nbu == 2 {
-		// TODO: Revoir ce qui doit etre retourné
 		return uint64(n)
 	} else {
 		var res uint64 = 1
@@ -101,10 +97,11 @@ func buildMetafichier(filename string) {
 			}
 			break
 		}
+
 		bits := ""
 		for i := 0; i < n; i++ {
 
-			// On convertit l'octet en une nbPrececesseur de bits
+			// On convertit l'octet en une suite de bits
 			bits = fmt.Sprintf("%b", b[i])
 
 			// On complete avec des zeros au debut pour atteindre 8 bits
@@ -119,7 +116,7 @@ func buildMetafichier(filename string) {
 					bonds := pos - nb_uns
 					som := nbElsPrec(nb_uns, bonds)
 					rang += som
-					// fmt.Print(bonds, nb_uns, " - ")
+					fmt.Print(som, " - ")
 					nb_uns -= 1
 					it++
 				}
