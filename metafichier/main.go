@@ -22,8 +22,10 @@ func nbElsPrec(nbu int, n int) uint64 {
 	if n < 1 {
 		return 0
 	} else if nbu == 1 {
+		// TODO: Revoir ce qui doit etre retourné
 		return 1
 	} else if nbu == 2 {
+		// TODO: Revoir ce qui doit etre retourné
 		return uint64(n)
 	} else {
 		var res uint64 = 1
@@ -72,6 +74,8 @@ func buildMetafichier(filename string) {
 		}
 
 		for i := 0; i < n; i++ {
+			// Optimistation : Stocker les nbu dans un tableau indexé par les valeurs possibles d'un octet (0 à 255)
+			// nbu += tableau[b[i]] // retourne le nbu de l'octet courant
 			st := fmt.Sprintf("%b", b[i])
 			nbu += len(strings.Replace(st, "0", "", -1))
 		}

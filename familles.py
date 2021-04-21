@@ -1,22 +1,10 @@
+from utils import nb_els_prec
 
-famille      = 128
-sous_famille = 3
+famille      = 16
+sous_famille = 14
 rang = 0
 
 taille_temp = 0
-
-def suite(nbu, n):
-    if n < 1 :
-        return 0
-    elif nbu == 1 :
-        return 1
-    elif nbu == 2:
-        return n
-    else:
-        res = 1
-        for i in range(nbu-1):
-            res *= (n + i)/(i + 1)
-        return int(res)
 
 def get_rang(element):
     nb_uns = len(element.replace("0", ""))
@@ -26,7 +14,7 @@ def get_rang(element):
         bit = element[ind]
         if bit == "1":
             bonds = pos - nb_uns
-            som = suite(nb_uns + 1, bonds)
+            som = nb_els_prec(nb_uns, bonds)
             # print(bit + " | bonds: " + str(pos) + " - " + str(nb_uns) + " = " + str(bonds) + " | somme: " + str(som))
             nb_uns -= 1
             rang += som
@@ -34,10 +22,16 @@ def get_rang(element):
     return rang
 
 
-r = get_rang("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011000100000000000000000000000000000")
+nbEls = nb_els_prec(1, 0)
+print("sommme: " + str(nbEls))
+# exit()
+
+r = get_rang("1011101111111111")
+print("rang: " + str(r))
+# exit()
 
 for a in range(1, famille - sous_famille + 1):
-    val = suite(sous_famille, a)
+    val = nb_els_prec(sous_famille, a)
     print(str(a) + " => " + str(val))
 
 
