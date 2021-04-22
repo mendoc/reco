@@ -104,3 +104,59 @@ def sous(nb1, nb2):
             resultat = str(rep) + resultat
         
     return resultat
+
+def sup(nb1, nb2):
+    if len(nb1) > len(nb2):
+        while len(nb2) < len(nb1):
+            nb2 = "0" + nb2
+    else:
+        while len(nb1) < len(nb2):
+            nb1 = "0" + nb1
+    
+    return nb1 > nb2
+
+def sup_egal(nb1, nb2):
+    if len(nb1) > len(nb2):
+        while len(nb2) < len(nb1):
+            nb2 = "0" + nb2
+    else:
+        while len(nb1) < len(nb2):
+            nb1 = "0" + nb1
+    
+    return nb1 >= nb2
+
+def div(nb1, nb2):
+    resultat = ""
+    rep = nb1
+    
+    if len(nb1) < len(nb2):
+        return "0"
+    
+    # print(nb1)
+
+    dividende = nb1
+    quotient = ""
+    portion = ""
+    reste = ""
+    for i in range(len(dividende)):
+        portion += nb1[i]
+        if sup_egal(portion, nb2):
+            print(portion)
+            facteur = "0"
+            temp = portion
+            while sup(temp, nb2):
+                temp = sous(temp, nb2)
+                facteur = add(facteur, "1")
+            prod = mul(facteur, nb2)
+            reste = sous(portion, prod)
+            portion = reste.lstrip('0')
+            resultat += facteur
+            print("facteur:", facteur, "nb2:", nb2, "prod:", prod, "reste:", reste, "portion:", portion)
+        print(portion)
+    
+    return resultat, reste.lstrip('0')
+
+# res = div("500641876841681764684617684614646416604", "178518176876878171676788")
+# # res, _ = div("25784", "87")
+# print("resultat:", res)
+# print(add(mul('284438181960', "178518176876878171676788"), '65734870560513411968604'))
