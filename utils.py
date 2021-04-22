@@ -9,6 +9,26 @@ def nb_els_prec(nbu, n):
             res *= (n + i)/(i + 1)
         return int(res)
 
+def sup(nb1, nb2):
+    if len(nb1) > len(nb2):
+        while len(nb2) < len(nb1):
+            nb2 = "0" + nb2
+    else:
+        while len(nb1) < len(nb2):
+            nb1 = "0" + nb1
+    
+    return nb1 > nb2
+
+def sup_egal(nb1, nb2):
+    if len(nb1) > len(nb2):
+        while len(nb2) < len(nb1):
+            nb2 = "0" + nb2
+    else:
+        while len(nb1) < len(nb2):
+            nb1 = "0" + nb1
+    
+    return nb1 >= nb2
+
 def add(nb1, nb2):
     if len(nb1) > len(nb2):
         while len(nb2) < len(nb1):
@@ -70,6 +90,10 @@ def mul(nb1, nb2):
         
         resultat = add(resultat, ligne)
     
+    resultat = resultat.lstrip("0")
+    if len(resultat) == 0:
+        return "0"
+    
     return resultat
 
 def sous(nb1, nb2):
@@ -105,58 +129,29 @@ def sous(nb1, nb2):
         
     return resultat
 
-def sup(nb1, nb2):
-    if len(nb1) > len(nb2):
-        while len(nb2) < len(nb1):
-            nb2 = "0" + nb2
-    else:
-        while len(nb1) < len(nb2):
-            nb1 = "0" + nb1
-    
-    return nb1 > nb2
-
-def sup_egal(nb1, nb2):
-    if len(nb1) > len(nb2):
-        while len(nb2) < len(nb1):
-            nb2 = "0" + nb2
-    else:
-        while len(nb1) < len(nb2):
-            nb1 = "0" + nb1
-    
-    return nb1 >= nb2
-
 def div(nb1, nb2):
     resultat = ""
     rep = nb1
     
-    if len(nb1) < len(nb2):
-        return "0"
+    if sup(nb2, nb1):
+        return "0", "0"
     
-    # print(nb1)
-
-    dividende = nb1
-    quotient = ""
     portion = ""
     reste = ""
-    for i in range(len(dividende)):
+    for i in range(len(nb1)):
         portion += nb1[i]
-        if sup_egal(portion, nb2):
-            print(portion)
-            facteur = "0"
-            temp = portion
-            while sup(temp, nb2):
-                temp = sous(temp, nb2)
-                facteur = add(facteur, "1")
-            prod = mul(facteur, nb2)
-            reste = sous(portion, prod)
-            portion = reste.lstrip('0')
-            resultat += facteur
-            print("facteur:", facteur, "nb2:", nb2, "prod:", prod, "reste:", reste, "portion:", portion)
-        print(portion)
-    
-    return resultat, reste.lstrip('0')
+        facteur = "0"
+        temp = portion
+        while sup_egal(temp, nb2):
+            temp = sous(temp, nb2)
+            facteur = add(facteur, "1")
+        prod = mul(facteur, nb2)
+        reste = sous(portion, prod)
+        portion = reste.lstrip("0")
+        resultat += facteur
 
-# res = div("500641876841681764684617684614646416604", "178518176876878171676788")
-# # res, _ = div("25784", "87")
-# print("resultat:", res)
-# print(add(mul('284438181960', "178518176876878171676788"), '65734870560513411968604'))
+    reste = reste.lstrip("0")
+    if len(reste) == 0:
+        reste = "0"
+    
+    return resultat.lstrip("0"), reste
