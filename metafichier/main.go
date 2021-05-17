@@ -116,9 +116,10 @@ func buildMetafichier(filename string) {
 					bonds := pos - nb_uns
 					som := nbElsPrec(nb_uns, bonds)
 					rang += som
-					fmt.Print(som, " - ")
+					fmt.Print(nb_uns, bonds, " - ")
 					nb_uns -= 1
 					it++
+					break
 				}
 				ind++
 			}

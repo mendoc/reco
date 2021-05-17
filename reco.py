@@ -1,7 +1,11 @@
 from utils import nb_els_prec
 
-nb   = 16
-nbu  = 14
+som = nb_els_prec(4066, "5693")
+print("som:", som)
+exit()
+
+nb   = 1220 * 8
+nbu  = 4066
 rang = 96
 
 nbp = 0
