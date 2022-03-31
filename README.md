@@ -2,7 +2,7 @@
 Reco est un utilitaire pour archiver des fichiers.
 
 ## Présentation
-Ce projet a pour but de présenter le projet, le fonctionnement, les cas d'usage et permettre à qui le souhaite de contribuer à son évolution.
+Ce dépôt a pour but de présenter le projet, le fonctionnement, les cas d'usage et permettre à qui le souhaite de contribuer à son évolution.
 
 ## Constat
 Parfois nous avons des fichiers, documents, etc. dans nos appareils que nous ne consultons pas tout le temps mais que nous ne pouvons pas ou ne voulons pas effacer à cause de leur importance. Nous nous retrouvons ainsi avec des fichiers qui occuppent notre espace disque sans trop savoir quoi en faire.
